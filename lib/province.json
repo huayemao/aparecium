@@ -2,239 +2,239 @@
     {
         "GB/T_2260-2007": "AH",
         "ISO": "CN-AH",
-        "Province": "Anhui Province",
-        "Chinese_Hanyu_Pinyin": "安徽省 Ānhuī Shěng",
-        "Abbreviation": "皖 Wǎn"
+        "englishName": "Anhui Province",
+        "title": "安徽省 Ānhuī Shěng",
+        "abbreviation": "皖 Wǎn"
     },
     {
         "GB/T_2260-2007": "BJ",
         "ISO": "CN-BJ",
-        "Province": "Beijing Municipality",
-        "Chinese_Hanyu_Pinyin": "北京市 Běijīng Shì",
-        "Abbreviation": "京 Jīng"
+        "englishName": "Beijing Municipality",
+        "title": "北京市 Běijīng Shì",
+        "abbreviation": "京 Jīng"
     },
     {
         "GB/T_2260-2007": "CQ",
         "ISO": "CN-CQ",
-        "Province": "Chongqing Municipality",
-        "Chinese_Hanyu_Pinyin": "重庆市 Chóngqìng Shì",
-        "Abbreviation": "渝 Yú"
+        "englishName": "Chongqing Municipality",
+        "title": "重庆市 Chóngqìng Shì",
+        "abbreviation": "渝 Yú"
     },
     {
         "GB/T_2260-2007": "FJ",
         "ISO": "CN-FJ",
-        "Province": "Fujian Province[e]",
-        "Chinese_Hanyu_Pinyin": "福建省 Fújiàn Shěng",
-        "Abbreviation": "闽 Mǐn"
+        "englishName": "Fujian Province",
+        "title": "福建省 Fújiàn Shěng",
+        "abbreviation": "闽 Mǐn"
     },
     {
         "GB/T_2260-2007": "GD",
         "ISO": "CN-GD",
-        "Province": "Guangdong Province[g]",
-        "Chinese_Hanyu_Pinyin": "广东省 Guǎngdōng Shěng",
-        "Abbreviation": "粤 Yuè"
+        "englishName": "Guangdong Province",
+        "title": "广东省 Guǎngdōng Shěng",
+        "abbreviation": "粤 Yuè"
     },
     {
         "GB/T_2260-2007": "GS",
         "ISO": "CN-GS",
-        "Province": "Gansu Province",
-        "Chinese_Hanyu_Pinyin": "甘肃省 Gānsù Shěng",
-        "Abbreviation": "甘(陇) Gān (Lǒng)"
+        "englishName": "Gansu Province",
+        "title": "甘肃省 Gānsù Shěng",
+        "abbreviation": "甘(陇) Gān (Lǒng)"
     },
     {
         "GB/T_2260-2007": "GX",
         "ISO": "CN-GX",
-        "Province": "Guangxi Zhuang Autonomous Region",
-        "Chinese_Hanyu_Pinyin": "广西壮族自治区 Guǎngxī Zhuàngzú Zìzhìqū",
-        "Abbreviation": "桂 Guì"
+        "englishName": "Guangxi Zhuang Autonomous Region",
+        "title": "广西壮族自治区 Guǎngxī Zhuàngzú Zìzhìqū",
+        "abbreviation": "桂 Guì"
     },
     {
         "GB/T_2260-2007": "GZ",
         "ISO": "CN-GZ",
-        "Province": "Guizhou Province",
-        "Chinese_Hanyu_Pinyin": "贵州省 Guìzhōu Shěng",
-        "Abbreviation": "贵(黔) Guì (Qián)"
+        "englishName": "Guizhou Province",
+        "title": "贵州省 Guìzhōu Shěng",
+        "abbreviation": "贵(黔) Guì (Qián)"
     },
     {
         "GB/T_2260-2007": "HA (HEN)",
         "ISO": "CN-HA",
-        "Province": "Henan Province",
-        "Chinese_Hanyu_Pinyin": "河南省 Hénán Shěng",
-        "Abbreviation": "豫 Yù"
+        "englishName": "Henan Province",
+        "title": "河南省 Hénán Shěng",
+        "abbreviation": "豫 Yù"
     },
     {
         "GB/T_2260-2007": "HB (HUB)",
         "ISO": "CN-HB",
-        "Province": "Hubei Province",
-        "Chinese_Hanyu_Pinyin": "湖北省 Húběi Shěng",
-        "Abbreviation": "鄂 È"
+        "englishName": "Hubei Province",
+        "title": "湖北省 Húběi Shěng",
+        "abbreviation": "鄂 È"
     },
     {
         "GB/T_2260-2007": "HE (HEB)",
         "ISO": "CN-HE",
-        "Province": "Hebei Province",
-        "Chinese_Hanyu_Pinyin": "河北省 Héběi Shěng",
-        "Abbreviation": "冀 Jì"
+        "englishName": "Hebei Province",
+        "title": "河北省 Héběi Shěng",
+        "abbreviation": "冀 Jì"
     },
     {
         "GB/T_2260-2007": "HI",
         "ISO": "CN-HI",
-        "Province": "Hainan Province[h]",
-        "Chinese_Hanyu_Pinyin": "海南省 Hǎinán Shěng",
-        "Abbreviation": "琼 Qióng"
+        "englishName": "Hainan Province",
+        "title": "海南省 Hǎinán Shěng",
+        "abbreviation": "琼 Qióng"
     },
     {
         "GB/T_2260-2007": "HK",
         "ISO": "CN-HK[i]",
-        "Province": "Hong Kong Special Administrative Region",
-        "Chinese_Hanyu_Pinyin": "香港特别行政区 Xiānggǎng Tèbié Xíngzhèngqū",
-        "Abbreviation": "港 Gǎng"
+        "englishName": "Hong Kong Special Administrative Region",
+        "title": "香港特别行政区 Xiānggǎng Tèbié Xíngzhèngqū",
+        "abbreviation": "港 Gǎng"
     },
     {
         "GB/T_2260-2007": "HL",
         "ISO": "CN-HL",
-        "Province": "Heilongjiang Province",
-        "Chinese_Hanyu_Pinyin": "黑龙江省 Hēilóngjiāng Shěng",
-        "Abbreviation": "黑 Hēi"
+        "englishName": "Heilongjiang Province",
+        "title": "黑龙江省 Hēilóngjiāng Shěng",
+        "abbreviation": "黑 Hēi"
     },
     {
         "GB/T_2260-2007": "HN (HUN)",
         "ISO": "CN-HN",
-        "Province": "Hunan Province",
-        "Chinese_Hanyu_Pinyin": "湖南省 Húnán Shěng",
-        "Abbreviation": "湘 Xiāng"
+        "englishName": "Hunan Province",
+        "title": "湖南省 Húnán Shěng",
+        "abbreviation": "湘 Xiāng"
     },
     {
         "GB/T_2260-2007": "JL",
         "ISO": "CN-JL",
-        "Province": "Jilin Province",
-        "Chinese_Hanyu_Pinyin": "吉林省 Jílín Shěng",
-        "Abbreviation": "吉 Jí"
+        "englishName": "Jilin Province",
+        "title": "吉林省 Jílín Shěng",
+        "abbreviation": "吉 Jí"
     },
     {
         "GB/T_2260-2007": "JS",
         "ISO": "CN-JS",
-        "Province": "Jiangsu Province",
-        "Chinese_Hanyu_Pinyin": "江苏省 Jiāngsū Shěng",
-        "Abbreviation": "苏 Sū"
+        "englishName": "Jiangsu Province",
+        "title": "江苏省 Jiāngsū Shěng",
+        "abbreviation": "苏 Sū"
     },
     {
         "GB/T_2260-2007": "JX",
         "ISO": "CN-JX",
-        "Province": "Jiangxi Province",
-        "Chinese_Hanyu_Pinyin": "江西省 Jiāngxī Shěng",
-        "Abbreviation": "赣 Gàn"
+        "englishName": "Jiangxi Province",
+        "title": "江西省 Jiāngxī Shěng",
+        "abbreviation": "赣 Gàn"
     },
     {
         "GB/T_2260-2007": "LN",
         "ISO": "CN-LN",
-        "Province": "Liaoning Province",
-        "Chinese_Hanyu_Pinyin": "辽宁省 Liáoníng Shěng",
-        "Abbreviation": "辽 Liáo"
+        "englishName": "Liaoning Province",
+        "title": "辽宁省 Liáoníng Shěng",
+        "abbreviation": "辽 Liáo"
     },
     {
         "GB/T_2260-2007": "MO",
         "ISO": "CN-MO[j]",
-        "Province": "Macau Special Administrative Region",
-        "Chinese_Hanyu_Pinyin": "澳门特别行政区 Àomén Tèbié Xíngzhèngqū",
-        "Abbreviation": "澳 Ào"
+        "englishName": "Macau Special Administrative Region",
+        "title": "澳门特别行政区 Àomén Tèbié Xíngzhèngqū",
+        "abbreviation": "澳 Ào"
     },
     {
         "GB/T_2260-2007": "NM",
         "ISO": "CN-NM",
-        "Province": "Inner Mongolia Autonomous Region",
-        "Chinese_Hanyu_Pinyin": "内蒙古自治区 Nèi Měnggǔ Zìzhìqū",
-        "Abbreviation": "内蒙古(绥/蒙) Nèi Měnggǔ (Suí/Měng)"
+        "englishName": "Inner Mongolia Autonomous Region",
+        "title": "内蒙古自治区 Nèi Měnggǔ Zìzhìqū",
+        "abbreviation": "内蒙古(绥/蒙) Nèi Měnggǔ (Suí/Měng)"
     },
     {
         "GB/T_2260-2007": "NX",
         "ISO": "CN-NX",
-        "Province": "Ningxia Hui Autonomous Region",
-        "Chinese_Hanyu_Pinyin": "宁夏回族自治区 Níngxià Huízú Zìzhìqū",
-        "Abbreviation": "宁 Níng"
+        "englishName": "Ningxia Hui Autonomous Region",
+        "title": "宁夏回族自治区 Níngxià Huízú Zìzhìqū",
+        "abbreviation": "宁 Níng"
     },
     {
         "GB/T_2260-2007": "QH",
         "ISO": "CN-QH",
-        "Province": "Qinghai Province",
-        "Chinese_Hanyu_Pinyin": "青海省 Qīnghǎi Shěng",
-        "Abbreviation": "青 Qīng"
+        "englishName": "Qinghai Province",
+        "title": "青海省 Qīnghǎi Shěng",
+        "abbreviation": "青 Qīng"
     },
     {
         "GB/T_2260-2007": "SC",
         "ISO": "CN-SC",
-        "Province": "Sichuan Province",
-        "Chinese_Hanyu_Pinyin": "四川省 Sìchuān Shěng",
-        "Abbreviation": "川(蜀) Chuān (Shǔ)"
+        "englishName": "Sichuan Province",
+        "title": "四川省 Sìchuān Shěng",
+        "abbreviation": "川(蜀) Chuān (Shǔ)"
     },
     {
         "GB/T_2260-2007": "SD",
         "ISO": "CN-SD",
-        "Province": "Shandong Province",
-        "Chinese_Hanyu_Pinyin": "山东省 Shāndōng Shěng",
-        "Abbreviation": "鲁 Lǔ"
+        "englishName": "Shandong Province",
+        "title": "山东省 Shāndōng Shěng",
+        "abbreviation": "鲁 Lǔ"
     },
     {
         "GB/T_2260-2007": "SH",
         "ISO": "CN-SH",
-        "Province": "Shanghai Municipality",
-        "Chinese_Hanyu_Pinyin": "上海市 Shànghǎi Shì",
-        "Abbreviation": "沪(申) Hù (Shēn)"
+        "englishName": "Shanghai Municipality",
+        "title": "上海市 Shànghǎi Shì",
+        "abbreviation": "沪(申) Hù (Shēn)"
     },
     {
         "GB/T_2260-2007": "SN (SAA)",
         "ISO": "CN-SN",
-        "Province": "Shaanxi Province",
-        "Chinese_Hanyu_Pinyin": "陕西省 Shǎnxī Shěng",
-        "Abbreviation": "陕(秦) Shǎn (Qín)"
+        "englishName": "Shaanxi Province",
+        "title": "陕西省 Shǎnxī Shěng",
+        "abbreviation": "陕(秦) Shǎn (Qín)"
     },
     {
         "GB/T_2260-2007": "SX (SAX)",
         "ISO": "CN-SX",
-        "Province": "Shanxi Province",
-        "Chinese_Hanyu_Pinyin": "山西省 Shānxī Shěng",
-        "Abbreviation": "晋 Jìn"
+        "englishName": "Shanxi Province",
+        "title": "山西省 Shānxī Shěng",
+        "abbreviation": "晋 Jìn"
     },
     {
         "GB/T_2260-2007": "TJ",
         "ISO": "CN-TJ",
-        "Province": "Tianjin Municipality",
-        "Chinese_Hanyu_Pinyin": "天津市 Tiānjīn Shì",
-        "Abbreviation": "津 Jīn"
+        "englishName": "Tianjin Municipality",
+        "title": "天津市 Tiānjīn Shì",
+        "abbreviation": "津 Jīn"
     },
     {
         "GB/T_2260-2007": "TW",
         "ISO": "CN-TW[k]",
-        "Province": "Taiwan Province[l]",
-        "Chinese_Hanyu_Pinyin": "台湾省 Táiwān Shěng",
-        "Abbreviation": "台(臺) Tái"
+        "englishName": "Taiwan Province",
+        "title": "台湾省 Táiwān Shěng",
+        "abbreviation": "台(臺) Tái"
     },
     {
         "GB/T_2260-2007": "XJ",
         "ISO": "CN-XJ",
-        "Province": "Xinjiang Uyghur Autonomous Region",
-        "Chinese_Hanyu_Pinyin": "新疆维吾尔自治区 Xīnjiāng Wéiwú'ěr Zìzhìqū",
-        "Abbreviation": "新 Xīn"
+        "englishName": "Xinjiang Uyghur Autonomous Region",
+        "title": "新疆维吾尔自治区 Xīnjiāng Wéiwú'ěr Zìzhìqū",
+        "abbreviation": "新 Xīn"
     },
     {
         "GB/T_2260-2007": "XZ",
         "ISO": "CN-XZ",
-        "Province": "Tibet Autonomous Region",
-        "Chinese_Hanyu_Pinyin": "西藏自治区 Xīzàng Zìzhìqū",
-        "Abbreviation": "藏 Zàng"
+        "englishName": "Tibet Autonomous Region",
+        "title": "西藏自治区 Xīzàng Zìzhìqū",
+        "abbreviation": "藏 Zàng"
     },
     {
         "GB/T_2260-2007": "YN",
         "ISO": "CN-YN",
-        "Province": "Yunnan Province",
-        "Chinese_Hanyu_Pinyin": "云南省 Yúnnán Shěng",
-        "Abbreviation": "云(滇) Yún (Diān)"
+        "englishName": "Yunnan Province",
+        "title": "云南省 Yúnnán Shěng",
+        "abbreviation": "云(滇) Yún (Diān)"
     },
     {
         "GB/T_2260-2007": "ZJ",
         "ISO": "CN-ZJ",
-        "Province": "Zhejiang Province",
-        "Chinese_Hanyu_Pinyin": "浙江省 Zhèjiāng Shěng",
-        "Abbreviation": "浙 Zhè"
+        "englishName": "Zhejiang Province",
+        "title": "浙江省 Zhèjiāng Shěng",
+        "abbreviation": "浙 Zhè"
     }
 ]

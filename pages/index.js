@@ -6,6 +6,7 @@ import Head from "next/head";
 import { CMS_NAME } from "../lib/constants";
 import Link from "next/link";
 import cn from "classnames";
+import Hero from "../components/hero";
 
 export default function Index({ allProvinces }) {
   return (
@@ -16,48 +17,8 @@ export default function Index({ allProvinces }) {
         </Head>
         <Container>
           <Intro />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-10">
-            {allProvinces.map(({ slug, title, href, hasData }) =>
-              hasData ? (
-                <div
-                  key={slug}
-                  className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                >
-                  <Link href={`/provinces/${slug}`}>
-                    <a>
-                      <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {title}
-                      </h5>
-                    </a>
-                  </Link>
-                  <p className="font-normal text-sm text-gray-600 dark:text-gray-400 truncate">
-                    数据来源：
-                    <a
-                      // style={{ overflowWrap: "anywhere" }}
-                      className="underline"
-                      href={href}
-                    >
-                      {href}
-                    </a>
-                  </p>
-                </div>
-              ) : (
-                <div
-                  key={slug}
-                  className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                >
-                  <a>
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {title}
-                    </h5>
-                  </a>
-                  <p className="font-normal text-sm text-gray-600 dark:text-gray-400 truncate">
-                    暂无数据
-                  </p>
-                </div>
-              )
-            )}
-          </div>
+          <h2 className="text-4xl md:text-5xl mb-6">省级行政区</h2>
+          <Hero data={allProvinces} />
         </Container>
       </Layout>
     </>
@@ -67,20 +28,27 @@ export default function Index({ allProvinces }) {
 export async function getStaticProps() {
   const data = getAllProvinces();
 
+  const unsorted = data.map(({ content, ...rest }) => {
+    const hasData = !!content;
+    return hasData
+      ? {
+          ...rest,
+          hasData,
+          href: JSON.parse(content).href,
+        }
+      : { ...rest, hasData, href: "." };
+  });
+
+  const hasDataProvinces = unsorted.filter((e) => e.hasData);
+  const nonDataProvinces = unsorted.filter((e) => !e.hasData);
+
+  const allProvinces = hasDataProvinces
+    .sort((a, b) => a.href.localeCompare(b.href))
+    .concat(nonDataProvinces);
+
   return {
     props: {
-      allProvinces: data.map(({ content, Chinese_Hanyu_Pinyin, ...rest }) => {
-        const hasData = !!content;
-        const title = Chinese_Hanyu_Pinyin;
-        return hasData
-          ? {
-              ...rest,
-              title,
-              hasData,
-              href: JSON.parse(content).href,
-            }
-          : { ...rest, title, hasData };
-      }),
+      allProvinces,
     },
   };
 }
