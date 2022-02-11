@@ -4,7 +4,7 @@ import { map, get, isEmpty, drop, dropWhile } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Container from "../../components/container";
 import Layout from "../../components/layout";
-import { getProvinceBySlug } from "../../lib/api";
+import { getProvinceBySlug } from "../../lib/provinceApi";
 import Head from "next/head";
 import MappedTable from "../../components/mapped-table";
 import Link from "next/link";
@@ -84,7 +84,7 @@ export default function Province({ provinceName, data, path }) {
 export async function getServerSideProps(context) {
   const { req, res, query } = context;
   const { slug, node } = query;
-  const { content } = getProvinceBySlug(slug);
+  const content = getProvinceBySlug(slug);
   const data = JSON.parse(content);
   const path = node ? findPath2Node(data, node) : [];
   const objGetter = (() => {

@@ -1,9 +1,9 @@
 import pako from "pako";
 import { join } from "path";
-import { getAllProvinces, getProvinceBySlug } from "./lib/api.js";
+import { getAllProvincesRaw } from "./lib/provinceApi.js";
 import fs from "fs";
 
-const allProvinces = getAllProvinces();
+const allProvinces = getAllProvincesRaw();
 allProvinces.forEach(({ content, slug }) => {
   const data = pako.gzip(content);
   const path = join(process.cwd(), "_provinces", slug + ".gz");
