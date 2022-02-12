@@ -13,7 +13,7 @@ export default function Index({ allProvinces }) {
     <>
       <Layout>
         <Head>
-          <title>Aparecium {CMS_NAME}</title>
+          <title>Aparecium</title>
         </Head>
         <Container>
           <Intro />

@@ -1,19 +1,21 @@
+// https://nextjs.org/docs/routing/dynamic-routes
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import { map, get, isEmpty, drop, dropWhile } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Container from "../../components/container";
-import Layout from "../../components/layout";
-import { getProvinceBySlug } from "../../lib/provinceApi";
+import Container from "../../../components/container";
+import Layout from "../../../components/layout";
+import { getProvinceBySlug } from "../../../lib/provinceApi";
 import Head from "next/head";
-import MappedTable from "../../components/mapped-table";
+import MappedTable from "../../../components/mapped-table";
 import Link from "next/link";
-import Header from "../../components/header";
+import Header from "../../../components/header";
+import { getAllProvinces } from "../../../lib/provinceApi";
 
 const LinkOrText = ({ propertyName, value, item }) => {
   const router = useRouter();
   return propertyName === "名称" && item.hasChildren ? (
-    <Link href={`/provinces/${router.query.slug}?node=${item.统计用区划代码}`}>
+    <Link href={`/provinces/${router.query.slug}/${item.统计用区划代码}`}>
       <a className="font-medium text-blue-600 hover:underline">{value}</a>
     </Link>
   ) : (
@@ -47,9 +49,7 @@ export default function Province({ provinceName, data, path }) {
                       href={
                         i === 0
                           ? `/provinces/${router.query.slug}`
-                          : `/provinces/${router.query.slug}?node=${
-                              path[i - 1].key
-                            }`
+                          : `/provinces/${router.query.slug}/${path[i - 1].key}`
                       }
                     >
                       <a
@@ -81,9 +81,10 @@ export default function Province({ provinceName, data, path }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req, res, query } = context;
-  const { slug, node } = query;
+export async function getStaticProps(context) {
+  const { params } = context;
+  const { slug, node: arr } = params;
+  const [node] = arr || [];
   const content = getProvinceBySlug(slug);
   const data = JSON.parse(content);
   const path = node ? findPath2Node(data, node) : [];
@@ -109,6 +110,27 @@ export async function getServerSideProps(context) {
       data: dataSlice,
       path,
     },
+  };
+}
+
+export async function getStaticPaths() {
+  const data = getAllProvinces();
+  const hasDataProvinces = data.filter(({ content }) => !!content);
+  const paths = hasDataProvinces.flatMap(({ content, slug }) => {
+    const { children } = JSON.parse(content);
+    return map(children, (e) => {
+      return {
+        params: {
+          slug,
+          node: [e.value.统计用区划代码],
+        },
+      };
+    });
+  });
+
+  return {
+    paths,
+    fallback: "blocking",
   };
 }
 
