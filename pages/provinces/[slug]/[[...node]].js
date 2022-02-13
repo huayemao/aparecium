@@ -11,6 +11,7 @@ import MappedTable from "../../../components/mapped-table";
 import Link from "next/link";
 import Header from "../../../components/header";
 import { getAllProvinces } from "../../../lib/provinceApi";
+import { SITE_DESCRIPTION, SITE_NAME } from "../../../lib/constants";
 
 const LinkOrText = ({ propertyName, value, item }) => {
   const router = useRouter();
@@ -32,6 +33,11 @@ export default function Province({ provinceName, data, path }) {
 
   return (
     <Layout>
+      <Head>
+        <title>
+          {namePath.join("/")}-{SITE_NAME}, {SITE_DESCRIPTION}
+        </title>
+      </Head>
       <Container>
         <Header />
         <nav className="flex my-4" aria-label="Breadcrumb">

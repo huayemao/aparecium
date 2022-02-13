@@ -3,7 +3,7 @@ import Intro from "../components/intro";
 import Layout from "../components/layout";
 import { getAllProvinces } from "../lib/provinceApi";
 import Head from "next/head";
-import { CMS_NAME } from "../lib/constants";
+import { CMS_NAME, SITE_NAME, SITE_SUBTITLE } from "../lib/constants";
 import Link from "next/link";
 import cn from "classnames";
 import Hero from "../components/hero";
@@ -13,7 +13,9 @@ export default function Index({ allProvinces }) {
     <>
       <Layout>
         <Head>
-          <title>Aparecium</title>
+          <title>
+            {SITE_NAME}, {SITE_SUBTITLE}
+          </title>
         </Head>
         <Container>
           <Intro />
