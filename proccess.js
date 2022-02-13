@@ -9,3 +9,6 @@ allProvinces.forEach(({ content, slug }) => {
   const path = join(process.cwd(), "_provinces", slug + ".gz");
   fs.writeFileSync(path, data);
 });
+
+
+// node --experimental-json-modules .\proccess.js
