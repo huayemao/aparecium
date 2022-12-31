@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import path from "path";
+import { join } from "path";
 
 export * from "@prisma/client";
 
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "production") {
   prisma = new PrismaClient({
     datasources: {
       db: {
-        url: "file:" + path.join(process.cwd(), "tmp/dev.db"),
+        url: "file:" + join(__dirname, "..", "tmp", "dev.db"),
       },
     },
     errorFormat: "minimal",
