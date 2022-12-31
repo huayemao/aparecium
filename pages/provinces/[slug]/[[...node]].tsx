@@ -83,6 +83,7 @@ export async function getStaticProps(context) {
   const { slug, node: arr } = params;
   const [node] = arr || [];
 
+  // todo: 这个改到 API 里调用试试？
   const tree = await getProvinceTree(slug);
   if (!tree) {
     throw Error("没有当前省份数据");
@@ -102,7 +103,7 @@ export async function getStaticPaths() {
   const hasDataProvinces = data.filter(({ content }) => !!content);
   const paths = hasDataProvinces.flatMap(({ content, slug }) => {
     return map(
-      content?.filter((e) => e.id.endsWith("0000000")),
+      content?.filter((e) => e.id.endsWith("000000")),
       (e) => {
         return {
           params: {
