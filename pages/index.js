@@ -1,11 +1,9 @@
 import Container from "../components/container";
 import Intro from "../components/intro";
 import Layout from "../components/layout";
-import { getAllProvinces } from "../lib/provinceApi";
+import { getAllProvinces } from "../lib/getProvinces";
 import Head from "next/head";
 import { CMS_NAME, SITE_NAME, SITE_SUBTITLE } from "../lib/constants";
-import Link from "next/link";
-import cn from "classnames";
 import Hero from "../components/hero";
 
 export default function Index({ allProvinces }) {
@@ -14,7 +12,7 @@ export default function Index({ allProvinces }) {
       <Layout>
         <Head>
           <title>
-            {SITE_NAME}, {SITE_SUBTITLE}
+            {`${SITE_NAME}-${SITE_SUBTITLE}`}
           </title>
         </Head>
         <Container>
@@ -28,18 +26,18 @@ export default function Index({ allProvinces }) {
 }
 
 export async function getStaticProps() {
-  const data = getAllProvinces();
-
-  const unsorted = data.map(({ content, ...rest }) => {
+  const data = await getAllProvinces();
+  const unsorted = await Promise.all(data.map(async ({ content, ...rest }) => {
     const hasData = !!content;
     return hasData
       ? {
-          ...rest,
-          hasData,
-          href: JSON.parse(content).href,
-        }
+        ...rest,
+        hasData,
+        // 这个是后面用来排序的
+        href: content[0].href,
+      }
       : { ...rest, hasData, href: "." };
-  });
+  }));
 
   const hasDataProvinces = unsorted.filter((e) => e.hasData);
   const nonDataProvinces = unsorted.filter((e) => !e.hasData);

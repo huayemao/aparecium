@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations
+model Area {
+  id           String  @id
+  name         String
+  categoryCode Int?
+  href         String?
+  parentId     String?
+  parent       Area?   @relation("gover", fields: [parentId], references: [id])
+  children     Area[]  @relation("gover")
+}
