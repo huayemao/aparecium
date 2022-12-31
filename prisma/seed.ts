@@ -3,7 +3,7 @@ import prisma, { Area } from "../lib/prisma";
 import { JSDOM } from "jsdom";
 import { entries } from "../lib/entry";
 import { Tree } from "../lib/model/Tree";
-import { buildTreeByProvinceId } from "../lib/getProvinces";
+import { buildProvinceTreeByAreaId } from "../lib/getProvinces";
 
 const _importDynamic = new Function("modulePath", "return import(modulePath)");
 
@@ -101,7 +101,7 @@ async function fetchProvinceData(root: Area) {
         const url = BASE_URL + "/" + (el.value.href || "");
         console.log("level: " + level, url);
 
-        await sleep(300);
+        await sleep(500);
 
         const tableEl = await getTableData(url);
 
@@ -132,7 +132,7 @@ async function fetchProvinceData(root: Area) {
   async function shouldContinue() {
     const id = root.id;
 
-    const tree = await buildTreeByProvinceId(id);
+    const tree = await buildProvinceTreeByAreaId(id);
 
     let shouldContinue = false;
 

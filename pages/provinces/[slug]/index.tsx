@@ -8,9 +8,11 @@ import Head from "next/head";
 import MappedTable from "components/mapped-table";
 import Link from "next/link";
 import Header from "components/header";
-import { getAllProvinces, getProvinceTree } from "lib/getProvinces";
+import { getAllProvinces } from "lib/getProvinces";
 import { SITE_DESCRIPTION, SITE_NAME } from "lib/constants";
 import { BreadCrumb } from "components/BreadCrumb";
+import { Area } from "lib/prisma";
+import { GetStaticPropsContext } from "next";
 
 // https://github.com/vercel/next.js/discussions/36096
 
@@ -29,7 +31,16 @@ const LinkOrText = ({ propertyName, value, item }) => {
 };
 
 // awaited
-type Props = Awaited<ReturnType<typeof getStaticProps>>["props"];
+// type Props = Awaited<ReturnType<typeof getStaticProps>>["props"];
+
+type Props = {
+  data:
+    | (Area & {
+        hasChildren: boolean;
+      })[]
+    | null;
+  path: Area[];
+};
 
 export default function Province({ data, path }: Props) {
   const router = useRouter();
@@ -78,42 +89,21 @@ export default function Province({ data, path }: Props) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: GetStaticPropsContext) {
   const { params } = context;
-  const { slug, node: arr } = params;
-  const [node] = arr || [];
+  const { slug, node } = params;
 
-  // todo: 这个改到 API 里调用试试？
-  const tree = await getProvinceTree(slug);
-  if (!tree) {
-    throw Error("没有当前省份数据");
-  }
-  const { path, data } = await tree.get(node || tree.value.id);
+  const url = new URL(`/api/${slug}/${node || ""}`, process.env.API_END_POINT);
+  const res = (await fetch(url).then((res) => res.json())) as Props;
 
   return {
-    props: {
-      data,
-      path,
-    },
+    props: res,
   };
 }
 
 export async function getStaticPaths() {
   const data = await getAllProvinces();
   const hasDataProvinces = data.filter(({ content }) => !!content);
-  const paths = hasDataProvinces.flatMap(({ content, slug }) => {
-    return map(
-      content?.filter((e) => e.id.endsWith("000000")),
-      (e) => {
-        return {
-          params: {
-            slug,
-            node: [e.id],
-          },
-        };
-      }
-    );
-  });
 
   const indexes = hasDataProvinces.map((e) => {
     return {
@@ -124,16 +114,8 @@ export async function getStaticPaths() {
     };
   });
 
-
-  paths.push(
-    //@ts-ignore
-    ...indexes
-  );
-
-  // console.log(paths)
-
   return {
-    paths,
-    fallback: false,
+    paths: indexes,
+    fallback: "blocking",
   };
 }

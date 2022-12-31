@@ -15,7 +15,7 @@ export async function getAllProvinces(fields = []) {
   const provinces = await Promise.all(
     slugs.map(async (slug) => {
       const metaData = provinceMeta.find(({ ISO }) => ISO === slug);
-      const content = await getProvince(slug);
+      const content = await getProvinceDataBySlug(slug);
       return { slug, ...metaData, content };
     })
   );
@@ -23,7 +23,7 @@ export async function getAllProvinces(fields = []) {
   return provinces;
 }
 
-export const getProvince = async (slug) => {
+export const getProvinceDataBySlug = async (slug) => {
   const provinceName = getProvinceNameBySlug(slug);
 
   const province = await prisma.area.findFirst({
@@ -36,7 +36,19 @@ export const getProvince = async (slug) => {
     return null;
   }
 
-  return await getAreasByProvinceId(province.id);
+  return await getProvinceDataByAreaId(province.id);
+};
+
+export const getProvinceBySlug = async (slug) => {
+  const provinceName = getProvinceNameBySlug(slug);
+
+  const province = await prisma.area.findFirst({
+    where: {
+      name: provinceName,
+    },
+  });
+
+  return province;
 };
 
 export const getProvinceTree = async (slug) => {
@@ -52,8 +64,22 @@ export const getProvinceTree = async (slug) => {
     return null;
   }
 
-  const tree = buildTreeByProvinceId(province.id);
+  const tree = buildProvinceTreeByAreaId(province.id);
   return tree;
+};
+
+export const getProvinceByName = async (slug) => {
+  const provinceName = getProvinceNameBySlug(slug);
+
+  console.log(provinceName);
+
+  const province = await prisma.area.findFirst({
+    where: {
+      name: provinceName,
+    },
+  });
+
+  return province;
 };
 
 export function getProvinceNameBySlug(slug: any) {
@@ -65,14 +91,15 @@ export function getProvinceNameBySlug(slug: any) {
   return provinceName;
 }
 
-export async function buildTreeByProvinceId(id: string) {
-  const items = await getAreasByProvinceId(id);
+export async function buildProvinceTreeByAreaId(id: string) {
+  const items = await getProvinceDataByAreaId(id);
 
-  const tree: Tree<Area> = Tree.from(items, id);
+  // 这里保留 id 就变成 subTree 了
+  const tree: Tree<Area> = Tree.from(items, items[0].id);
   return tree;
 }
 
-export async function getAreasByProvinceId(id: string) {
+export async function getProvinceDataByAreaId(id: string) {
   const prefix = id.slice(0, 3);
 
   const items = await prisma.area.findMany({
