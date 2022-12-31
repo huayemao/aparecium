@@ -102,7 +102,7 @@ export async function getStaticPaths() {
   const hasDataProvinces = data.filter(({ content }) => !!content);
   const paths = hasDataProvinces.flatMap(({ content, slug }) => {
     return map(
-      content?.filter((e) => e.id.endsWith("00000000")),
+      content?.filter((e) => e.id.endsWith("0000000")),
       (e) => {
         return {
           params: {
@@ -114,8 +114,25 @@ export async function getStaticPaths() {
     );
   });
 
+  const indexes = hasDataProvinces.map((e) => {
+    return {
+      params: {
+        slug: e.slug,
+        node: null,
+      },
+    };
+  });
+
+
+  paths.push(
+    //@ts-ignore
+    ...indexes
+  );
+
+  // console.log(paths)
+
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 }
