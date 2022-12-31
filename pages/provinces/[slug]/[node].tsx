@@ -18,6 +18,7 @@ import { SITE_DESCRIPTION, SITE_NAME } from "lib/constants";
 import { BreadCrumb } from "components/BreadCrumb";
 import { Area } from "lib/prisma";
 import { readdirSync } from "fs";
+import { join } from "path";
 // import { copyDB } from "lib/copyDB";
 
 // https://github.com/vercel/next.js/discussions/36096
@@ -49,16 +50,16 @@ type Props = {
   d: any;
 };
 
-export default function Province({ data, path, d }: Props) {
+export default function Province({ d, data, path }: Props) {
   const router = useRouter();
-  console.log(d);
 
   const namePath = useMemo(() => map(path, "name"), []);
 
-  const BreadCrumbItems = path.map((e) => ({
-    key: e.id,
-    name: e.name,
-  }));
+  const BreadCrumbItems =
+    path?.map((e) => ({
+      key: e.id,
+      name: e.name,
+    })) || [];
 
   if (!data) {
     return null;
@@ -116,8 +117,20 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   const { path, data } = await tree.get(node || tree.value.id);
 
+  if (!path) {
+    console.log(888, node, slug);
+  }
+
+  const d1 = join(process.cwd(), "_provinces");
+  // 得写这一句，不然 db 会丢掉
+  const d2 = join(process.cwd(), "tmp");
+
   return {
-    props: { path, data, d: readdirSync(process.cwd()) },
+    props: {
+      path,
+      data,
+      d: [readdirSync(process.cwd()), readdirSync(d1), readdirSync(d2)],
+    },
   };
 }
 
@@ -141,6 +154,6 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: true,
   };
 }
