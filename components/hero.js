@@ -24,12 +24,12 @@ const ProvincePreview = ({ province }) => {
           </p>
         </div>
         <p className="text-gray-600 dark:text-gray-400 truncate">
-          {hasData && (
+          {/* {hasData && (
             <span title={href} className="text-sm">
               数据来源：
               {href}
             </span>
-          )}
+          )} */}
           {!hasData && (
             <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
               暂无数据

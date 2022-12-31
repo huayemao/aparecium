@@ -16,34 +16,34 @@ export class Tree<T extends { parentId: string | null; id: string }> {
     this.children = children;
   }
 
+  static buildChildren<T extends { parentId: string | null; id: string }>(
+    items: T[],
+    parentId: string | null = null
+  ) {
+    const filtered = items.filter((item) => item.parentId === parentId);
+    // 如果没有 parentId 为 rootId 的 item ，那 root 就是个叶子
+    if (!filtered.length) {
+      return null;
+    }
+
+    const nodes: Tree<T>[] = filtered.map((item) => {
+      const children = Tree.buildChildren(items, item.id);
+
+      return new Tree(item, children);
+    });
+
+    return nodes;
+  }
+
   static from<T extends { parentId: string | null; id: string }>(
     items: T[],
     rootId: string | null = null
   ) {
-    function buildChildren<T extends { parentId: string | null; id: string }>(
-      items: T[],
-      parentId: string | null = null
-    ) {
-      const filtered = items.filter((item) => item.parentId === parentId);
-      // 如果没有 parentId 为 rootId 的 item ，那 root 就是个叶子
-      if (!filtered.length) {
-        return null;
-      }
-
-      const nodes: Tree<T>[] = filtered.map((item) => {
-        const children = buildChildren(items, item.id);
-
-        return new Tree(item, children);
-      });
-
-      return nodes;
-    }
-
     const root = items.find((e) => e.id === rootId);
     if (!root) {
       throw Error("根节点未找到");
     }
-    return new Tree<T>(root, buildChildren(items, rootId));
+    return new Tree<T>(root, Tree.buildChildren(items, rootId));
   }
 
   isLeaf() {
@@ -66,7 +66,7 @@ export class Tree<T extends { parentId: string | null; id: string }> {
     for (const child of this.children) {
       const next = await child.dfs(cb, level + 1);
       if (!next) {
-        return next;
+        return false;
       }
     }
     return true;

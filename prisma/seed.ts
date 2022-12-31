@@ -139,7 +139,7 @@ async function fetchProvinceData(root: Area) {
     await tree.dfs(async (el, level) => {
       if (level < 4 && el.isLeaf() && !!el.value.href) {
         shouldContinue = true;
-        return false;
+        return false; // 中止 dfs
       }
       return true;
     });
@@ -152,24 +152,20 @@ async function fetchProvinceData(root: Area) {
 }
 
 async function run() {
-  for (const province of entries.slice(18, 30)) {
-    try {
-      const [name, href] = province;
-      const CODE = href?.replace(BASE_URL, "");
+  for (const province of entries) {
+    const [name, href] = province;
+    const CODE = href?.replace(BASE_URL, "");
 
-      const root: Area = {
-        href: CODE,
-        id: CODE.replace(/\.html/, "0000000000"),
-        name: name,
-        categoryCode: null,
-        parentId: null,
-      };
+    const root: Area = {
+      href: CODE,
+      id: CODE.replace(/\.html/, "0000000000"),
+      name: name,
+      categoryCode: null,
+      parentId: null,
+    };
 
-      await fetchProvinceData(root);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    await fetchProvinceData(root);
+    console.log("finished ", root.name);
   }
 }
 

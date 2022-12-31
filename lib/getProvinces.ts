@@ -100,7 +100,7 @@ export async function buildProvinceTreeByAreaId(id: string) {
 }
 
 export async function getProvinceDataByAreaId(id: string) {
-  const prefix = id.slice(0, 3);
+  const prefix = id.slice(0, 2);
 
   const items = await prisma.area.findMany({
     where: {
