@@ -3,11 +3,13 @@ import {
   getProvinceBySlug,
 } from "lib/getProvinces";
 import { NextApiRequest, NextApiResponse } from "next";
+import { join } from "path";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   const node = req.query.node;
   const slug = req.query.slug as string;
   const areaId = node || (await getProvinceBySlug(slug))?.id;

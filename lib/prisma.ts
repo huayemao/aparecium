@@ -9,7 +9,8 @@ if (process.env.NODE_ENV === "production") {
   prisma = new PrismaClient({
     datasources: {
       db: {
-        url: "file:" + join(__dirname, "..", "tmp", "dev.db"),
+        // url: "file:" + join(process.cwd(), "tmp", "dev.db"),
+        url: "file:/tmp/dev.db",
       },
     },
     errorFormat: "minimal",
