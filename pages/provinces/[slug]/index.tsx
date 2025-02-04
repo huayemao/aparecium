@@ -12,7 +12,7 @@ import AreaTable from "components/AreaTable";
 
 export const LinkOrText = ({ propertyName, value, item }) => {
   const router = useRouter();
-  return propertyName === "id" && item.hasChildren ? (
+  return ["name", "id"].some((e) => propertyName == e) && item.hasChildren ? (
     <Link
       href={`/provinces/${router.query.slug}/${item.id}`}
       className="font-medium text-blue-600 hover:underline"
@@ -24,13 +24,13 @@ export const LinkOrText = ({ propertyName, value, item }) => {
   );
 };
 
-export default AreaTable
+export default AreaTable;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { params } = context;
   const { slug } = params;
 
-  const areaId: string | null =(await getProvinceBySlug(slug))?.id || null;
+  const areaId: string | null = (await getProvinceBySlug(slug))?.id || null;
 
   if (!areaId) {
     throw Error("没有数据");
@@ -54,7 +54,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     },
   };
 }
-
 
 export async function getStaticPaths() {
   const data = await getAllProvinces();
