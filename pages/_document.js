@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-
+import { Analytics } from "@vercel/analytics"
 export default class MyDocument extends Document {
   render() {
     return (
@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <Analytics r/>
         </body>
       </Html>
     )
