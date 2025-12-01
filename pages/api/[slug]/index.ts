@@ -9,11 +9,11 @@ export default async function handler(
 ) {
   const node = req.query.node;
   const slug = req.query.slug as string;
-  const str = path.join(process.cwd(), "tmp", "dev.db");
+  const str = path.join(process.cwd(), "data", "dev.db");
 
   res.json({
     dir: fs.readdirSync(process.cwd()),
-    dr1: fs.readdirSync(path.join(process.cwd(), "tmp")),
+    dr1: fs.readdirSync(path.join(process.cwd(), "data")),
     dr2: fs.readdirSync(path.join(process.cwd(), "..")),
     dr3: fs.readdirSync(path.join(process.cwd(), "..", "..")),
     dr4: fs.readdirSync(path.join("/")),

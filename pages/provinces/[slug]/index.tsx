@@ -44,7 +44,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 
   // 得写这一句，不然 db 所在目录不会被包含到 runtime
-  const d2 = join(process.cwd(), "tmp");
+  const d2 = join(process.cwd(), "data");
   console.log(d2);
 
   return {

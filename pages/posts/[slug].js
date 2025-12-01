@@ -70,7 +70,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  // build 时写到 /tmp/dev.db?
+  // build 时写到 /data/dev.db?
   // copyDB()
 
   const posts = getAllPosts(['slug'])

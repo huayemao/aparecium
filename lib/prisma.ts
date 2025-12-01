@@ -11,8 +11,8 @@ if (process.env.NODE_ENV === "production") {
   prisma = new PrismaClient({
     datasources: {
       db: {
-        url: "file:" + join(process.cwd(), "tmp", "dev.db"),
-        // url: "file:/tmp/dev.db",
+        url: "file:" + join(process.cwd(), "data", "dev.db"),
+        // url: "file:/data/dev.db",
       },
     },
     errorFormat: "minimal",
@@ -25,8 +25,8 @@ if (process.env.NODE_ENV === "production") {
       errorFormat: "pretty",
       datasources: {
         db: {
-          url: "file:" + join(process.cwd(), "tmp", "dev.db"),
-          // url: "file:/tmp/dev.db",
+          url: "file:" + join(process.cwd(), "data", "dev.db"),
+          // url: "file:/data/dev.db",
         },
       },
     });

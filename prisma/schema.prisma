@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:../data/dev.db"
 }
 
 // https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations
