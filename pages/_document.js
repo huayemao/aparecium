@@ -8,7 +8,7 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <Analytics r/>
+          {/* <Analytics /> */}
         </body>
       </Html>
     )
