@@ -177,8 +177,11 @@ function adapt(root): Area {
   };
 
   const obj = mapKeys(root.value, (v, k) => mapping[k]);
-  const data = {
-    ...obj,
+  const data: Area = {
+    id: obj.id || '',
+    name: obj.name || '',
+    categoryCode: obj.categoryCode || null,
+    parentId: null,
     href: root.href,
   };
   return data;

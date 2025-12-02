@@ -13,6 +13,14 @@ import { LinkOrText } from "../pages/provinces/[slug]";
 
 // awaited
 // type Props = Awaited<ReturnType<typeof getStaticProps>>["props"];
+interface CustomCellProps {
+  propertyName: string;
+  value: any;
+  item: Area & { hasChildren: boolean };
+}
+
+type CustomCellFunction = (props: CustomCellProps) => React.ReactNode;
+
 type Props = {
   data:
     | (Area & {
@@ -20,9 +28,10 @@ type Props = {
       })[]
     | null;
   path: Area[];
+  customCell?: CustomCellFunction;
 };
 
-export default function AreaTable({ data, path }: Props) {
+export default function AreaTable({ data, path, customCell }: Props) {
   const router = useRouter();
 
   const namePath = useMemo(() => map(path, "name"), []);

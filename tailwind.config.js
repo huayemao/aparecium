@@ -1,5 +1,8 @@
 module.exports = {
-  content: ['./components/**/*.js', './pages/**/*.js'],
+  content: ['./components/**/*.{js,ts,tsx}', './pages/**/*.js', './app/**/*.{js,ts,tsx}'],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {

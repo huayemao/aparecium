@@ -10,10 +10,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
-  const node = req.query.node;
-  const slug = req.query.slug as string;
+  const node = Array.isArray(req.query.node) ? req.query.node[0] : req.query.node;
+  const slug = typeof req.query.slug === 'string' ? req.query.slug : (Array.isArray(req.query.slug) ? req.query.slug[0] : '');
   const areaId = node || (await getProvinceBySlug(slug))?.id;
-  if (!areaId) {
+  if (!areaId || typeof areaId !== 'string') {
     throw Error("没有数据");
   }
   const tree = await buildProvinceTreeByAreaId(areaId);
@@ -22,7 +22,8 @@ export default async function handler(
     throw Error("没有数据");
   }
 
-  const { path, data } = await tree.get(node || tree.value.id);
+  const nodeParam = typeof node === 'string' ? node : tree.value.id;
+  const { path, data } = await tree.get(nodeParam);
 
   res.json({
     data,

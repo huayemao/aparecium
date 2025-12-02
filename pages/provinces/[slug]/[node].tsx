@@ -2,6 +2,7 @@
 import { map } from "lodash";
 import { getAllProvinces, getProvinceBySlug } from "lib/getProvinces";
 import { join } from "path";
+import { GetStaticPropsContext } from "next";
 import { getPath2Area } from "../../../lib/getPath2Area";
 import { getFragment } from "../../../lib/getFragment";
 import AreaTable from ".";
@@ -12,7 +13,11 @@ export default AreaTable;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { params } = context;
-  const { slug, node } = params;
+  if (!params) {
+    throw new Error("缺少参数");
+  }
+  const slug = params.slug as string;
+  const node = params.node as string;
 
   const areaId: string | null =
     node || (await getProvinceBySlug(slug))?.id || null;

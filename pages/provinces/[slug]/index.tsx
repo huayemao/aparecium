@@ -10,7 +10,11 @@ import AreaTable from "components/AreaTable";
 
 // https://github.com/vercel/next.js/discussions/36096
 
-export const LinkOrText = ({ propertyName, value, item }) => {
+export const LinkOrText = ({ propertyName, value, item }: {
+  propertyName: string;
+  value: any;
+  item: { id: string; hasChildren: boolean };
+}) => {
   const router = useRouter();
   return ["name", "id"].some((e) => propertyName == e) && item.hasChildren ? (
     <Link
@@ -28,7 +32,10 @@ export default AreaTable;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { params } = context;
-  const { slug } = params;
+  if (!params) {
+    throw new Error("缺少参数");
+  }
+  const slug = params.slug as string;
 
   const areaId: string | null = (await getProvinceBySlug(slug))?.id || null;
 
