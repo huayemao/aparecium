@@ -5,6 +5,7 @@ import { getAllProvinces } from "../lib/getProvinces";
 import Head from "next/head";
 import { CMS_NAME, SITE_NAME, SITE_SUBTITLE } from "../lib/constants";
 import Hero from "../components/hero";
+import ChinaMap from "../components/ChinaMap";
 
 export default function Index({ allProvinces }) {
   return (
@@ -17,8 +18,11 @@ export default function Index({ allProvinces }) {
         </Head>
         <Container>
           <Intro />
-          <h2 className="text-4xl md:text-5xl mb-6">省级行政区</h2>
+          <h2 className="text-4xl md:text-5xl mb-6">地图可视化</h2>
+          <main className="w-full space-y-12">
+            <ChinaMap provinces={allProvinces} />
           <Hero data={allProvinces} />
+          </main>
         </Container>
       </Layout>
     </>
