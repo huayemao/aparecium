@@ -1,6 +1,6 @@
 import Container from "./container";
 import cn from "classnames";
-import { GITHUB_REPO_URL } from "../lib/constants";
+import { GITHUB_REPO_URL, AUTHOR, AUTHOR_URL } from "../lib/constants";
 
 export default function Alert({ preview }) {
   return (
@@ -25,12 +25,19 @@ export default function Alert({ preview }) {
             </>
           ) : (
             <>
-              The source code for this site is{" "}
+              This is a project of 
               <a
-                href={GITHUB_REPO_URL}
+                href={'https://www.utities.online/'}
                 className="underline hover:text-success duration-200 transition-colors"
               >
-                available on GitHub
+                {` utities `}
+              </a>
+              {` by `}
+              <a
+                href={AUTHOR_URL}
+                className="underline hover:text-success duration-200 transition-colors"
+              >
+                {AUTHOR}
               </a>
               .
             </>
