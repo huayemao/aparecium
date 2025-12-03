@@ -7,32 +7,40 @@ import AreaTable from "../../../components/AreaTable";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "../../../lib/constants";
 import JsonLd from '../../../components/JsonLd';
+import { Metadata } from "next";
+import Container from "components/container";
+import { BreadCrumb } from "components/BreadCrumb";
 
 type Params = Promise<{
   slug: string;
 }>
 
 // 为省份详情页面生成动态metadata
-export async function generateMetadata({ params }: { params: Params }) {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   try {
     const province = await getProvinceBySlug(slug);
+    const path = await getPath2Area(province?.id || "");
+
     if (!province) {
       return {
         title: `页面不存在 - ${SITE_NAME}`,
         description: '抱歉，您访问的省份页面不存在或已被移除',
       };
     }
-    
-    const provinceName = province.name;
-    
+
+    const provinceName = path.map(e => e.name).join("") || province.name;
+
+    const description = `${provinceName}行政区划详情页面，提供${province.name}的详细行政区划数据，包括市、县、乡镇等层级信息`;
+    const abstract = `${provinceName}是中华人民共和国省级行政区划单位，包含多个市、县、乡镇等层级。本页面提供${provinceName}的详细行政区划数据，包括${provinceName}的市、县、乡镇等层级信息。`;
     return {
       title: `${provinceName} - 行政区划详情 - ${SITE_NAME}`,
+      abstract: abstract,
       description: `${provinceName}行政区划详情页面，提供${provinceName}的详细行政区划数据，包括市、县、乡镇等层级信息`,
       keywords: [`${provinceName}`, `${provinceName}行政区划`, `${provinceName}地图`, `${provinceName}市县`, `${provinceName}乡镇`],
       openGraph: {
         title: `${provinceName} - 行政区划详情 - ${SITE_NAME}`,
-        description: `${provinceName}行政区划详情页面，提供${provinceName}的详细行政区划数据，包括市、县、乡镇等层级信息`,
+        description: description,
         images: [
           {
             url: `https://og-image.vercel.app/${encodeURIComponent(provinceName)}行政区划.png?theme=light&md=1&fontSize=100px`,
@@ -74,6 +82,7 @@ export const LinkOrText = ({ slug, propertyName, value, item }: {
 
 // 页面组件
 export default async function ProvincePage({ params }: { params: Params }) {
+  const meta = await generateMetadata({ params });
   const { slug } = await params;
   try {
     const areaId: string | null = (await getProvinceBySlug(slug))?.id || null;
@@ -93,6 +102,16 @@ export default async function ProvincePage({ params }: { params: Params }) {
     const d2 = join(process.cwd(), "data");
     console.log(d2);
 
+    const BreadCrumbItems =
+      path?.map((e) => ({
+        key: e.id,
+        name: e.name,
+      })) || [];
+
+
+    // 获取根节点的slug（这应该从父组件传入，但为了保持兼容性暂时这样处理）
+    const rootSlug = slug;
+
     // 返回页面内容，包含AreaTable和JSON-LD结构化数据
     return (
       <>
@@ -108,12 +127,31 @@ export default async function ProvincePage({ params }: { params: Params }) {
             } : undefined
           }}
         />
-        <AreaTable
-          slug={slug} 
-          path={path} 
-          data={data}
-          customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
-        />
+
+        {/* 面包屑导航 - 语义化导航结构 */}
+        <Container>
+          <nav className="flex my-4" aria-label="面包屑导航">
+            <BreadCrumb
+              items={BreadCrumbItems}
+              rootSlug={rootSlug}
+            />
+          </nav>
+          <h1 className="text-2xl md:text-3xl font-bold">{path[path.length - 1].name}</h1>
+
+          <main className="space-y-6">
+            {meta.abstract && (
+              <p className="text-gray-600 dark:text-gray-400">
+                {meta.abstract}
+              </p>
+            )}
+            <AreaTable
+              slug={slug}
+              path={path}
+              data={data}
+              customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
+            />
+          </main>
+        </Container>
       </>
     );
   } catch (error) {

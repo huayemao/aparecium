@@ -1,4 +1,4 @@
-import { getPath2Area } from "../../../../lib/getPath2Area";
+import { getPath2Area, parseLevel } from "../../../../lib/getPath2Area";
 import { getFragment } from "../../../../lib/getFragment";
 import AreaTable from "../../../../components/AreaTable";
 import { notFound } from "next/navigation";
@@ -6,6 +6,8 @@ import { SITE_NAME } from "../../../../lib/constants";
 import prisma from "../../../../lib/prisma";
 import JsonLd from "../../../../components/JsonLd";
 import { LinkOrText } from "../page";
+import Container from "../../../../components/container";
+import { BreadCrumb } from "../../../../components/BreadCrumb";
 
 type Params = Promise<{
   slug: string;
@@ -17,6 +19,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   try {
     const { node } = await params;
     const area = await prisma.area.findUnique({ where: { id: node } });
+     const path = await getPath2Area(area?.id || "");
     
     if (!area) {
       return {
@@ -25,12 +28,24 @@ export async function generateMetadata({ params }: { params: Params }) {
       };
     }
     
-    const areaName = area.name;
-    const areaType = area.categoryCode || '';
-
+    const areaName =  path.map(e => e.name).join("") || area.name;
     
+    // 根据行政区划级别动态生成描述
+    const level = parseLevel(node);
+    const areaTypeMap = [
+      "省级行政区划单位",
+      "市级行政区划单位",
+      "县级行政区划单位",
+      "乡镇级行政区划单位",
+      "村级行政区划单位"
+    ];
+    const areaType = areaTypeMap[level] || "行政区划单位";
+    
+    const abstract = `${areaName}是中华人民共和国${areaType}，包含多个下属行政区划层级。本页面提供${areaName}的详细行政区划数据。`;
+
     return {
       title: `${areaName} - 行政区划详情 - ${SITE_NAME}`,
+      abstract: abstract,
       description: `${areaName}行政区划详情页面，提供${areaName}的详细行政区划数据和层级信息`,
       keywords: [`${areaName}`, `${areaName}`, `${areaName}行政区划`, `${areaName}地图`],
       openGraph: {
@@ -60,6 +75,9 @@ export async function generateMetadata({ params }: { params: Params }) {
 export default async function NestedProvincePage({ params }: { params: Params }) {
   try {
     const { node, slug } = await params;
+    
+    // 生成元数据，用于获取abstract
+    const meta = await generateMetadata({ params });
 
     if (!node) {
       notFound();
@@ -74,6 +92,12 @@ export default async function NestedProvincePage({ params }: { params: Params })
 
     // 获取当前区域信息用于JSON-LD
     const currentArea = path[path.length - 1];
+    
+    // 生成面包屑导航项
+    const BreadCrumbItems = path?.map((e) => ({
+      key: e.id,
+      name: e.name,
+    })) || [];
 
     // 返回包含JSON-LD结构化数据的页面
     return (
@@ -87,12 +111,29 @@ export default async function NestedProvincePage({ params }: { params: Params })
             "additionalType": "https://schema.org/AdministrativeArea"
           }}
         />
-        <AreaTable 
-          slug={slug}
-          path={path} 
-          data={data}
-          customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
-        />
+        <Container>
+          <nav className="flex my-4" aria-label="面包屑导航">
+            <BreadCrumb
+              items={BreadCrumbItems}
+              rootSlug={slug}
+            />
+          </nav>
+          <h1 className="text-2xl md:text-3xl font-bold">{currentArea.name}</h1>
+
+          <main className="space-y-6">
+            {meta.abstract && (
+              <p className="text-gray-600 dark:text-gray-400">
+                {meta.abstract}
+              </p>
+            )}
+            <AreaTable 
+              slug={slug}
+              path={path} 
+              data={data}
+              customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
+            />
+          </main>
+        </Container>
       </>
     );
   } catch (error) {

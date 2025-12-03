@@ -1,23 +1,25 @@
 import prisma from "lib/prisma";
 import { Tree } from "lib/model/Tree";
 
+// 解析行政区划级别
+export const parseLevel = (str: string) => {
+  if (str.includes("0000000000")) {
+    // 省
+    return 0;
+  } else if (str.includes("00000000")) {
+    // 地
+    return 1;
+  } else if (str.includes("000000")) {
+    // 县
+    return 2;
+  } else if (str.includes("000")) {
+    // 乡
+    return 3;
+  }
+  return 4;
+};
+
 export async function getPath2Area(areaId: string) {
-  const parseLevel = (str: string) => {
-    if (str.includes("0000000000")) {
-      // 省
-      return 0;
-    } else if (str.includes("00000000")) {
-      // 地
-      return 1;
-    } else if (str.includes("000000")) {
-      // 县
-      return 2;
-    } else if (str.includes("000")) {
-      // 乡
-      return 3;
-    }
-    return 4;
-  };
 
   const maskMapping = {
     0: "110000000000",
