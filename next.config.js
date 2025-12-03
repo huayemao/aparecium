@@ -3,11 +3,6 @@
  */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    appDir: true,
-    serverComponentsExternalPackages: ["prisma", "@prisma/client"],
-  },
-  appDir: true,
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -15,8 +10,8 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  // 字体优化配置
-  optimizeFonts: true,
+  // 外部服务器组件包配置
+  serverExternalPackages: ["prisma", "@prisma/client"],
   // 图片优化配置
   images: {
     domains: [],
