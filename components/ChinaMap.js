@@ -191,7 +191,7 @@ export default function ChinaMap({ provinces }) {
                       stroke="#ffffff"
                       strokeWidth="1"
                       onMouseEnter={() => {
-                        router.push(`/provinces/${slug}`);
+                        router.prefetch(`/provinces/${slug}`);
                         setHoveredProvince(adcode)
                       }
                       }
