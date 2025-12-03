@@ -30,9 +30,10 @@ interface Post {
 export async function generateStaticParams() {
   const posts = getAllPosts(['slug']);
   
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  // return posts.map((post) => ({
+  //   slug: post.slug,
+  // }));
+  return []
 }
 
 // 页面组件，直接获取数据
