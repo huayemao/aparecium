@@ -2,53 +2,98 @@ import { getPath2Area } from "../../../../lib/getPath2Area";
 import { getFragment } from "../../../../lib/getFragment";
 import AreaTable from "../../../../components/AreaTable";
 import { notFound } from "next/navigation";
+import { SITE_NAME } from "../../../../lib/constants";
+import prisma from "../../../../lib/prisma";
+import JsonLd from "../../../../components/JsonLd";
+import { LinkOrText } from "../page";
 
-// 重用相同的客户端组件LinkOrText
-'use client';
-import Link from "next/link";
+type Params = Promise<{
+  slug: string;
+  node: string;
+}>
 
-// 客户端组件，替代原来的LinkOrText
-export const LinkOrText = ({ propertyName, value, item }: {
-  propertyName: string;
-  value: any;
-  item: { id: string; hasChildren: boolean };
-}) => {
-  // 从props中获取参数，而不是使用useParams
-  return ["name", "id"].some((e) => propertyName == e) && item.hasChildren ? (
-    <Link
-      href={`#${item.id}`} // 简化的链接处理
-      className="font-medium text-blue-600 hover:underline"
-    >
-      {value}
-    </Link>
-  ) : (
-    value
-  );
-};
+// 为嵌套的省份节点页面生成动态metadata
+export async function generateMetadata({ params }: { params: Params }) {
+  try {
+    const { node } = await params;
+    const area = await prisma.area.findUnique({ where: { id: node } });
+    
+    if (!area) {
+      return {
+        title: `区域不存在 - ${SITE_NAME}`,
+        description: '抱歉，您访问的区域页面不存在或已被移除',
+      };
+    }
+    
+    const areaName = area.name;
+    const areaType = area.categoryCode || '';
+
+    
+    return {
+      title: `${areaName} - 行政区划详情 - ${SITE_NAME}`,
+      description: `${areaName}行政区划详情页面，提供${areaName}的详细行政区划数据和层级信息`,
+      keywords: [`${areaName}`, `${areaName}`, `${areaName}行政区划`, `${areaName}地图`],
+      openGraph: {
+        title: `${areaName} - 行政区划详情 - ${SITE_NAME}`,
+        description: `${areaName}行政区划详情页面，提供${areaName}的详细行政区划数据和层级信息`,
+        images: [
+          {
+            url: `https://og-image.vercel.app/${encodeURIComponent(areaName)}行政区划.png?theme=light&md=1&fontSize=100px`,
+            width: 1200,
+            height: 630,
+            alt: `${areaName}行政区划详情`,
+          },
+        ],
+      },
+    };
+  } catch (error) {
+    return {
+      title: `页面错误 - ${SITE_NAME}`,
+      description: '抱歉，加载页面时发生错误',
+    };
+  }
+}
+
+
 
 // 嵌套动态路由页面组件
-export default async function NestedProvincePage({ params }: { params: { slug: string, node: string } }) {
+export default async function NestedProvincePage({ params }: { params: Params }) {
   try {
-    const areaId = params.node;
+    const { node, slug } = await params;
 
-    if (!areaId) {
+    if (!node) {
       notFound();
     }
 
-    const data = await getFragment(areaId);
-    const path = await getPath2Area(areaId);
+    const data = await getFragment(node);
+    const path = await getPath2Area(node);
 
     if (!path.length) {
       notFound();
     }
 
-    // 返回AreaTable组件，并传入必要的props
+    // 获取当前区域信息用于JSON-LD
+    const currentArea = path[path.length - 1];
+
+    // 返回包含JSON-LD结构化数据的页面
     return (
-      <AreaTable 
-        path={path} 
-        data={data}
-        customCell={LinkOrText}
-      />
+      <>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Place",
+            "name": `${currentArea.name}`,
+            "description": `${currentArea.name}行政区划详情`,
+            "additionalType": "https://schema.org/AdministrativeArea"
+          }}
+        />
+        <AreaTable 
+          slug={slug}
+          path={path} 
+          data={data}
+          customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
+        />
+      </>
     );
   } catch (error) {
     notFound();

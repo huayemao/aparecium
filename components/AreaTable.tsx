@@ -1,15 +1,9 @@
-import { useRouter } from "next/router";
 import { map } from "lodash";
 import { useMemo } from "react";
 import Container from "components/container";
-import Layout from "components/layout";
-import Head from "next/head";
 import MappedTable from "components/mapped-table";
-import Header from "components/header";
-import { SITE_DESCRIPTION, SITE_NAME } from "lib/constants";
 import { BreadCrumb } from "components/BreadCrumb";
 import { Area } from "lib/prisma";
-import { LinkOrText } from "../pages/provinces/[slug]";
 
 // awaited
 // type Props = Awaited<ReturnType<typeof getStaticProps>>["props"];
@@ -19,24 +13,23 @@ interface CustomCellProps {
   item: Area & { hasChildren: boolean };
 }
 
-type CustomCellFunction = (props: CustomCellProps) => React.ReactNode;
+type CustomCell = React.FC<CustomCellProps>
 
 type Props = {
   data:
-    | (Area & {
-        hasChildren: boolean;
-      })[]
-    | null;
+  | (Area & {
+    hasChildren: boolean;
+  })[]
+  | null;
   path: Area[];
-  customCell?: CustomCellFunction;
+  customCell?: CustomCell;
+  slug: string;
 };
 
-export default function AreaTable({ data, path, customCell }: Props) {
-  const router = useRouter();
-
+export default function AreaTable({ slug, data, path, customCell }: Props) {
   const namePath = useMemo(() => map(path, "name"), []);
 
-  // 不清楚预渲染的时候这里为什么可能会是 undefined
+  // 生成面包屑导航项
   const BreadCrumbItems =
     path?.map((e) => ({
       key: e.id,
@@ -44,38 +37,44 @@ export default function AreaTable({ data, path, customCell }: Props) {
     })) || [];
 
   if (!data) {
-    return null;
+    return (
+      <Container>
+        <div className="p-8 text-center">
+          <p className="text-lg text-gray-600">暂无数据</p>
+        </div>
+      </Container>
+    );
   }
 
+  // 获取根节点的slug（这应该从父组件传入，但为了保持兼容性暂时这样处理）
+  const rootSlug = slug;
+
   return (
-    /* @ts-ignore */
-    <Layout>
-      {/* @ts-ignore */}
-      <Head>
-        <title>{`${namePath.join("/")}-${SITE_NAME}`}</title>
-        <meta name="description" content={SITE_DESCRIPTION} />
-      </Head>
-      {/* @ts-ignore */}
-      <Container>
-        <Header />
-        <main className="space-y-4">
-          <nav className="flex my-4" aria-label="Breadcrumb">
-            {
-              <BreadCrumb
-                items={BreadCrumbItems}
-                rootSlug={router.query.slug as string}
-              />
-            }
-          </nav>
-          <div className="text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+    <Container>
+      <main className="space-y-6">
+        {/* 面包屑导航 - 语义化导航结构 */}
+        <nav className="flex my-4" aria-label="面包屑导航">
+          <BreadCrumb
+            items={BreadCrumbItems}
+            rootSlug={rootSlug}
+          />
+        </nav>
+
+        {/* 区域标题 */}
+        <h1 className="text-2xl md:text-3xl font-bold">{namePath.join(" / ")}</h1>
+
+        {/* 表格容器 */}
+        <section className="overflow-hidden rounded-lg border border-gray-200">
+          <div className="bg-white dark:bg-gray-700">
+            <h2 className="sr-only">区域数据表格</h2>
             <MappedTable
-              customCell={LinkOrText}
+              customCell={customCell}
               data={data}
               propertyNames={["id", "name", "categoryCode"]}
             />
           </div>
-        </main>
-      </Container>
-    </Layout>
+        </section>
+      </main>
+    </Container>
   );
 }

@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect, useRef } from 'react';
 import chinaProvincesData from '../data/china-provinces.json';
 import { useRouter } from 'next/navigation';
