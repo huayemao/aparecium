@@ -2,6 +2,8 @@ import Alert from '../components/alert'
 import Footer from '../components/footer'
 import Meta from '../components/meta'
 import '../styles/index.css'
+import { Analytics } from '@vercel/analytics/next'
+
 
 
 export const metadata = {
@@ -49,6 +51,7 @@ export default function RootLayout({
         <Alert preview={false} />
         <main className="flex-grow">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
