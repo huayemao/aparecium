@@ -9,7 +9,8 @@ import { LinkOrText } from "../page";
 import Container from "../../../../components/container";
 import { BreadCrumb } from "../../../../components/BreadCrumb";
 import Link from "next/link";
-import { getProvinceInfoBySlug } from "../../../../lib/getProvinces";
+import { getProvinceInfoBySlug, getAllProvinces } from "../../../../lib/getProvinces";
+import { getIsoCodeByNumericPrefix } from "@/lib/utils/getIsoCodeByNumericPrefix";
 
 type Params = Promise<{
   slug: string;
@@ -191,6 +192,31 @@ export default async function NestedProvincePage({
   }
 }
 
-// 对于嵌套的动态路由，generateStaticParams可能需要更复杂的逻辑
-// 这里暂时不实现，因为它可能需要递归地获取所有可能的节点
-// 在实际应用中，可能需要根据具体的数据结构来实现
+// 为嵌套的省份节点页面生成静态路径
+export async function generateStaticParams() {
+  // 查询数据库中所有id以00000000结尾的area记录
+  const areas = await prisma.area.findMany({
+    where: { id: { endsWith: '00000000' } },
+    select: { id: true }
+  });
+
+  // 查询所有省份数据（id以000000结尾）
+  const provinces = await prisma.area.findMany({
+    where: { id: { endsWith: '000000' } },
+    select: { id: true }
+  });
+
+
+
+  // 生成静态路径并应用隔3跳1的过滤
+  const paths = areas
+    .map(area => {
+      const provincePrefix = area.id.slice(0, 2);
+      const isoCode = getIsoCodeByNumericPrefix(provincePrefix);
+      return isoCode ? { slug: isoCode, node: area.id } : null;
+    })
+    .filter((path, index) => path && Math.floor(index / 3) !== index / 3)
+    .filter(Boolean) as { slug: string; node: string }[];
+
+  return paths;
+}

@@ -19,6 +19,9 @@ const nextConfig = {
   },
   // 性能优化配置
   productionBrowserSourceMaps: false,
+  publicRuntimeConfig: {
+    VERCEL_URL: process.env.VERCEL_URL,
+  },
   compress: true,
   // 路径别名配置
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
