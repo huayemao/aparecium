@@ -1,6 +1,9 @@
 import Alert from '../components/alert'
 import Footer from '../components/footer'
 import Meta from '../components/meta'
+import Header from '../components/Header'
+import SearchModal from '../components/SearchModal'
+import { SearchModalProvider } from '../lib/hooks/useSearchModal'
 import '../styles/index.css'
 import { Analytics } from '@vercel/analytics/next'
 
@@ -48,9 +51,13 @@ export default function RootLayout({
         <Meta />
       </head>
       <body className="min-h-screen flex flex-col">
-        <Alert preview={false} />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <SearchModalProvider>
+          <Alert preview={false} />
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+          <SearchModal />
+        </SearchModalProvider>
         <Analytics />
       </body>
     </html>

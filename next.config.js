@@ -20,6 +20,13 @@ const nextConfig = {
   // 性能优化配置
   productionBrowserSourceMaps: false,
   compress: true,
+  // 路径别名配置
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.resolve.alias['@'] = require('path').resolve(__dirname, '.');
+    return config;
+  },
+  // Turbopack configuration (empty to silence the warning)
+  turbopack: {},
 };
 
 module.exports = nextConfig;

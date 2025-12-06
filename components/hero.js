@@ -4,7 +4,6 @@ import CoverImage from "../components/cover-image";
 import Link from "next/link";
 
 const ProvincePreview = ({ province }) => {
-  console.log(province)
   const { slug, title, englishName, abbreviation, href, hasData } = province;
   const [word, pinyin] = title.split(" ");
   return (
