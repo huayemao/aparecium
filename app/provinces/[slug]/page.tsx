@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllProvinces, getProvinceBySlug } from "../../../lib/getProvinces";
+import { getAllProvinces, getProvinceBySlug, getProvinceInfoBySlug } from "../../../lib/getProvinces";
 import { getPath2Area } from "../../../lib/getPath2Area";
 import { getFragment } from "../../../lib/getFragment";
 import { join } from "path";
@@ -10,6 +10,7 @@ import JsonLd from '../../../components/JsonLd';
 import { Metadata } from "next";
 import Container from "components/container";
 import { BreadCrumb } from "components/BreadCrumb";
+import provinceMeta from "../../../lib/province.json" assert { type: "json" };
 
 type Params = Promise<{
   slug: string;
@@ -150,6 +151,33 @@ export default async function ProvincePage({ params }: { params: Params }) {
               data={data}
               customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
             />
+            
+            {/* 更多阅读部分 */}
+            <section className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-semibold mb-4">更多阅读</h2>
+              <div className="space-y-2">
+                {(() => {
+                  // 获取当前省份的ISO代码
+                  // 参考 /C:/Users/huaye/workspace/aparecium/app/provinces/[slug]/page.tsx#L161-162
+                  const provinceInfo = getProvinceInfoBySlug(slug);
+                  if (provinceInfo) {
+                    return (
+                      <p>
+                        <Link 
+                          href={`https://uni.utities.online/${provinceInfo.ISO}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                        >
+                          {provinceInfo.title.split(" ")[0]}重点大学名单
+                        </Link>
+                      </p>
+                    );
+                  }
+                  return null;
+                })()}
+              </div>
+            </section>
           </main>
         </Container>
       </>

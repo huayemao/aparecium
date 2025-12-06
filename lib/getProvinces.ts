@@ -91,6 +91,14 @@ export function getProvinceNameBySlug(slug: any) {
   return provinceName;
 }
 
+// 获取省份信息
+// 参考 /C:/Users/huaye/workspace/aparecium/app/provinces/[slug]/page.tsx#L161-162
+// 这个函数可以在各处复用
+
+export function getProvinceInfoBySlug(slug: string) {
+  return provinceMeta.find(item => item.ISO === slug.toUpperCase());
+}
+
 export async function buildProvinceTreeByAreaId(id: string) {
   const items = await getProvinceDataByAreaId(id);
 

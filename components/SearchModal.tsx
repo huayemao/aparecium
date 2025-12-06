@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
 import { SearchIcon, XIcon } from 'lucide-react';
+import { getIsoCodeByNumericPrefix } from '../lib/utils/getIsoCodeByNumericPrefix';
 
 // Debounce hook
 function useDebounce<T>(value: T, delay: number): T {
@@ -91,25 +92,28 @@ export default function SearchModal() {
     [results, focusedIndex, close]
   );
 
-  // Construct path for the area
+// Construct path for the area
   const constructPath = (id: string): string => {
     // This is a simplified version - in a real app, you might want to fetch the full path
     // For now, we'll use a heuristic based on the ID length
+    const provinceCode = id.substring(0, 2);
+    const isoCode = getIsoCodeByNumericPrefix(provinceCode);
+    
     if (id.endsWith('0000000000')) {
       // Province level
-      return `/provinces/${id.substring(0, 2)}`;
+      return `/provinces/${isoCode}`;
     } else if (id.endsWith('00000000')) {
       // City level
-      return `/provinces/${id.substring(0, 2)}/${id}`;
+      return `/provinces/${isoCode}/${id}`;
     } else if (id.endsWith('000000')) {
       // County level
-      return `/provinces/${id.substring(0, 2)}/${id}`;
+      return `/provinces/${isoCode}/${id}`;
     } else if (id.endsWith('000')) {
       // Township level
-      return `/provinces/${id.substring(0, 2)}/${id}`;
+      return `/provinces/${isoCode}/${id}`;
     } else {
       // Village level
-      return `/provinces/${id.substring(0, 2)}/${id}`;
+      return `/provinces/${isoCode}/${id}`;
     }
   };
 

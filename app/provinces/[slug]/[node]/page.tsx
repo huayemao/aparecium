@@ -8,6 +8,8 @@ import JsonLd from "../../../../components/JsonLd";
 import { LinkOrText } from "../page";
 import Container from "../../../../components/container";
 import { BreadCrumb } from "../../../../components/BreadCrumb";
+import Link from "next/link";
+import { getProvinceInfoBySlug } from "../../../../lib/getProvinces";
 
 type Params = Promise<{
   slug: string;
@@ -132,6 +134,33 @@ export default async function NestedProvincePage({ params }: { params: Params })
               data={data}
               customCell={(props) => LinkOrText({ ...props, slug })} // 类型断言以避免TypeScript错误
             />
+            
+            {/* 更多阅读部分 */}
+            <section className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-semibold mb-4">更多阅读</h2>
+              <div className="space-y-2">
+                {(() => {
+                  // 获取当前省份的ISO代码
+                  // 参考 /C:/Users/huaye/workspace/aparecium/app/provinces/[slug]/page.tsx#L161-162
+                  const provinceInfo = getProvinceInfoBySlug(slug);
+                  if (provinceInfo) {
+                    return (
+                      <p>
+                        <Link 
+                          href={`https://uni.utities.online/${provinceInfo.ISO}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                        >
+                          {provinceInfo.title.split(" ")[0]}重点大学名单
+                        </Link>
+                      </p>
+                    );
+                  }
+                  return null;
+                })()}
+              </div>
+            </section>
           </main>
         </Container>
       </>
