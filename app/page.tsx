@@ -7,6 +7,8 @@ import ChinaMap from "../components/ChinaMap";
 import { Suspense } from "react";
 import JsonLd from "../components/JsonLd";
 
+export const dynamic = 'force-static';
+
 // 添加首页的metadata
 export const metadata = {
   title: `首页 - ${SITE_NAME} - ${SITE_SUBTITLE}`,

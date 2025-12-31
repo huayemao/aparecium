@@ -16,6 +16,8 @@ type Params = Promise<{
   slug: string;
 }>
 
+export const dynamic = 'force-static';
+
 // 为省份详情页面生成动态metadata
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
