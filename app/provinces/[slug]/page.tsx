@@ -73,6 +73,7 @@ export const LinkOrText = ({ slug, propertyName, value, item }: {
   // 简化的链接处理，不依赖路由参数
   return ["name", "id"].some((e) => propertyName == e) && item.hasChildren ? (
     <Link
+      prefetch={false}
       href={`/provinces/${slug}/${item.id}`}
       className="font-medium text-blue-600 hover:underline"
     >
