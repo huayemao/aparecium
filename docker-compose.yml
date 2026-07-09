@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/huayemao/aparecium:latest
+    container_name: aparecium
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower-cea
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_TIMEOUT=30s
+      - WATCHTOWER_POLL_INTERVAL=300
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
